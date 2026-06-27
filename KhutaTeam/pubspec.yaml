@@ -1,0 +1,70 @@
+name: khuta
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.0
+dependencies:
+  flutter:
+    sdk: flutter  # Core
+  cupertino_icons: 
+  easy_localization:
+  equatable: 
+  google_fonts:
+  flutter_bloc: 
+  shared_preferences: 
+  sqflite: 
+  path:
+  lottie:
+  # Firebase
+  firebase_core: 
+  firebase_auth: 
+  cloud_firestore: 
+
+  # UI & Theming
+  flutter_svg: 
+  shimmer: 
+  flutter_native_splash:
+  # Utils
+  uuid:
+  intl: 
+  flutter_markdown_plus:  
+  flutter_tts:
+  permission_handler: 
+  connectivity_plus: 
+  animated_bottom_navigation_bar:
+  animated_theme_switcher:
+  url_launcher:
+  firebase_ai: 
+  auto_size_text:
+  flutter_animate: 
+  firebase_app_check: 
+  google_sign_in: ^6.2.1
+  share_plus:
+  path_provider:
+  pdf:  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints:
+  mockito: 
+  build_runner:
+
+
+
+flutter:
+  uses-material-design: true
+  
+  # Add assets here
+  assets:
+    - assets/translations/
+    - assets/images/
+    - assets/images/teacher_questions/
+    - assets/images/parents_questions/
+    - assets/legal/
+    - assets/animations/
+  fonts:
+    - family: NotoSansArabic
+      fonts:
+        - asset: assets/fonts/NotoSansArabic-Regular.ttf

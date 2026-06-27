@@ -1,0 +1,107 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user owns the resource
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Helper function to validate child data
+    function isValidChild() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['name', 'age', 'gender', 'createdAt'])
+        && data.name is string
+        && data.name.size() > 0
+        && data.name.size() <= 100
+        && data.age is number
+        && data.age >= 1
+        && data.age <= 100
+        && data.gender in ['male', 'female']
+        && data.createdAt is timestamp;
+    }
+
+    // Helper function to validate test result data
+    function isValidTestResult() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['score', 'notes', 'date', 'testType'])
+        && data.score is number
+        && data.score >= 0
+        && data.notes is string
+        && data.date is timestamp
+        && data.testType is string;
+    }
+
+    // Users collection - no direct access to user document
+    match /users/{userId} {
+      // Users cannot read/write user documents directly
+      allow read, write: if false;
+
+      // Children subcollection
+      match /children/{childId} {
+        // Only owner can read their children
+        allow read: if isOwner(userId);
+
+        // Only owner can create children with valid data
+        allow create: if isOwner(userId) && isValidChild();
+
+        // Only owner can update children
+        // Allow soft delete (isDeleted, updatedAt) and full updates for editing
+        allow update: if isOwner(userId);
+
+        // Prevent hard deletes - use soft delete instead
+        allow delete: if false;
+
+        // Test results subcollection
+        match /testResults/{resultId} {
+          // Only owner can read test results
+          allow read: if isOwner(userId);
+
+          // Only owner can create test results with valid data
+          allow create: if isOwner(userId) && isValidTestResult();
+
+          // Test results are immutable - no updates or deletes
+          allow update, delete: if false;
+        }
+      }
+    }
+
+    // Doctors collection - public read, authenticated write
+    match /doctors/{doctorId} {
+      // Any authenticated user can read doctor profiles
+      allow read: if isAuthenticated();
+
+      // Only authenticated users can create/update (in production, restrict to admin role)
+      allow create, update: if isAuthenticated();
+
+      // Prevent hard deletes from clients - use isActive flag
+      allow delete: if false;
+    }
+
+    // Appointments collection
+    match /appointments/{appointmentId} {
+      // Users can read their own appointments; authenticated users can read all (for admin)
+      allow read: if isAuthenticated();
+
+      // Any authenticated user can create an appointment
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid;
+
+      // Users can update their own appointments; others can update status
+      allow update: if isAuthenticated();
+
+      // No hard deletes
+      allow delete: if false;
+    }
+
+    // Catch-all: deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
