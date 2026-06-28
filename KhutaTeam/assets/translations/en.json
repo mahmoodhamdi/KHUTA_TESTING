@@ -193,6 +193,7 @@
   "assessment_deleted": "Assessment deleted successfully",
   "error_adding_child": "Error adding child",
   "error_loading_children": "Error loading children",
+  "error_loading_content": "Failed to load content",
   "retry": "Retry",
   "no_children_yet": "No Children Yet",
   "add_child_description": "Start by adding your first child to begin tracking their development and test results.",

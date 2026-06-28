@@ -70,7 +70,9 @@ class ResultsScreen extends StatelessWidget {
           child: Column(
             children: [
               Semantics(
-                label: AccessibilityUtils.getScoreAccessibilityLabel(score.toDouble()),
+                label: AccessibilityUtils.getScoreAccessibilityLabel(
+                  score.toDouble(),
+                ),
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
@@ -133,13 +135,18 @@ class ResultsScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              AccessibilityUtils.getScoreSeverityText(score.toDouble()),
+                              AccessibilityUtils.getScoreSeverityText(
+                                score.toDouble(),
+                              ),
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -200,11 +207,14 @@ class ResultsScreen extends StatelessWidget {
                                   horizontal: 14,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: HomeScreenTheme.backgroundColor(isDark),
+                                  color: HomeScreenTheme.backgroundColor(
+                                    isDark,
+                                  ),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: HomeScreenTheme.accentBlue(isDark)
-                                        .withValues(alpha: 0.1),
+                                    color: HomeScreenTheme.accentBlue(
+                                      isDark,
+                                    ).withValues(alpha: 0.1),
                                   ),
                                 ),
                                 child: Row(
@@ -224,7 +234,9 @@ class ResultsScreen extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: 16,
                                           height: 1.6,
-                                          color: HomeScreenTheme.secondaryText(isDark),
+                                          color: HomeScreenTheme.secondaryText(
+                                            isDark,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -353,7 +365,9 @@ class ResultsScreen extends StatelessWidget {
 
       pw.Font? arabicFont;
       try {
-        final fontData = await rootBundle.load('assets/fonts/NotoSansArabic-Regular.ttf');
+        final fontData = await rootBundle.load(
+          'assets/fonts/NotoSansArabic-Regular.ttf',
+        );
         arabicFont = pw.Font.ttf(fontData);
       } catch (e) {
         if (kDebugMode) debugPrint('Arabic font not found, using default font');
@@ -365,8 +379,8 @@ class ResultsScreen extends StatelessWidget {
           margin: const pw.EdgeInsets.all(30),
           textDirection:
               EasyLocalization.of(context)?.currentLocale?.languageCode == 'ar'
-                  ? pw.TextDirection.rtl
-                  : pw.TextDirection.ltr,
+              ? pw.TextDirection.rtl
+              : pw.TextDirection.ltr,
           theme: pw.ThemeData.withFont(base: arabicFont, bold: arabicFont),
           build: (pw.Context context) {
             return [
@@ -398,7 +412,10 @@ class ResultsScreen extends StatelessWidget {
                       ),
                       pw.SizedBox(height: 15),
                       pw.Container(
-                        padding: const pw.EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        padding: const pw.EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 8,
+                        ),
                         decoration: pw.BoxDecoration(color: PdfColors.white),
                         child: pw.Text(
                           '${'child_name'.tr()}: ${child.name}',
@@ -412,7 +429,10 @@ class ResultsScreen extends StatelessWidget {
                       pw.SizedBox(height: 8),
                       pw.Text(
                         '${'date'.tr()}: ${DateFormat('yyyy-MM-dd').format(DateTime.now())}',
-                        style: pw.TextStyle(fontSize: 14, color: PdfColors.white),
+                        style: pw.TextStyle(
+                          fontSize: 14,
+                          color: PdfColors.white,
+                        ),
                       ),
                     ],
                   ),
@@ -423,7 +443,10 @@ class ResultsScreen extends StatelessWidget {
                 padding: const pw.EdgeInsets.all(20),
                 decoration: pw.BoxDecoration(
                   color: PdfColors.white,
-                  border: pw.Border.all(color: _getPDFScoreColor(score), width: 2),
+                  border: pw.Border.all(
+                    color: _getPDFScoreColor(score),
+                    width: 2,
+                  ),
                   borderRadius: pw.BorderRadius.circular(12),
                 ),
                 child: pw.Column(
@@ -431,24 +454,55 @@ class ResultsScreen extends StatelessWidget {
                   children: [
                     pw.Text(
                       'score_interpretation'.tr(),
-                      style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold, color: PdfColors.grey800),
+                      style: pw.TextStyle(
+                        fontSize: 22,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColors.grey800,
+                      ),
                     ),
                     pw.SizedBox(height: 12),
                     pw.Row(
                       mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                       children: [
-                        pw.Text('T-Score:', style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold, color: PdfColors.grey700)),
-                        pw.Text('${score.toInt()}', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold, color: _getPDFScoreColor(score))),
+                        pw.Text(
+                          'T-Score:',
+                          style: pw.TextStyle(
+                            fontSize: 18,
+                            fontWeight: pw.FontWeight.bold,
+                            color: PdfColors.grey700,
+                          ),
+                        ),
+                        pw.Text(
+                          '${score.toInt()}',
+                          style: pw.TextStyle(
+                            fontSize: 24,
+                            fontWeight: pw.FontWeight.bold,
+                            color: _getPDFScoreColor(score),
+                          ),
+                        ),
                       ],
                     ),
                     pw.SizedBox(height: 8),
                     // FIX: interpretation is already translated string (from getScoreInterpretation)
-                    pw.Text(interpretation, style: pw.TextStyle(fontSize: 16, color: PdfColors.grey700)),
+                    pw.Text(
+                      interpretation,
+                      style: pw.TextStyle(
+                        fontSize: 16,
+                        color: PdfColors.grey700,
+                      ),
+                    ),
                   ],
                 ),
               ),
               pw.SizedBox(height: 25),
-              pw.Text('questions_and_answers'.tr(), style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold, color: PdfColors.grey800)),
+              pw.Text(
+                'questions_and_answers'.tr(),
+                style: pw.TextStyle(
+                  fontSize: 22,
+                  fontWeight: pw.FontWeight.bold,
+                  color: PdfColors.grey800,
+                ),
+              ),
               pw.SizedBox(height: 15),
               ...List.generate(questions.length, (index) {
                 final question = questions[index];
@@ -467,18 +521,30 @@ class ResultsScreen extends StatelessWidget {
                       children: [
                         // FIX #8: questionText is already translated (tr() called in questions.dart)
                         // Do NOT call .tr() again here
-                        pw.Text('${index + 1}. ${question.questionText}',
-                            style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold, color: PdfColors.grey800)),
+                        pw.Text(
+                          '${index + 1}. ${question.questionText}',
+                          style: pw.TextStyle(
+                            fontSize: 14,
+                            fontWeight: pw.FontWeight.bold,
+                            color: PdfColors.grey800,
+                          ),
+                        ),
                         pw.SizedBox(height: 6),
                         pw.Container(
-                          padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const pw.EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: pw.BoxDecoration(
                             color: _getAnswerColor(answer),
                             borderRadius: pw.BorderRadius.circular(12),
                           ),
                           child: pw.Text(
                             '${'answer'.tr()}: ${_getAnswerText(answer)}',
-                            style: pw.TextStyle(fontSize: 13, color: PdfColors.white),
+                            style: pw.TextStyle(
+                              fontSize: 13,
+                              color: PdfColors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -487,7 +553,14 @@ class ResultsScreen extends StatelessWidget {
                 );
               }),
               pw.SizedBox(height: 25),
-              pw.Text('recommendations'.tr(), style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold, color: PdfColors.grey800)),
+              pw.Text(
+                'recommendations'.tr(),
+                style: pw.TextStyle(
+                  fontSize: 22,
+                  fontWeight: pw.FontWeight.bold,
+                  color: PdfColors.grey800,
+                ),
+              ),
               pw.SizedBox(height: 15),
               pw.Container(
                 padding: const pw.EdgeInsets.all(20),
@@ -508,10 +581,19 @@ class ResultsScreen extends StatelessWidget {
                           pw.Container(
                             width: 22,
                             height: 22,
-                            decoration: pw.BoxDecoration(color: PdfColors.green600, shape: pw.BoxShape.circle),
+                            decoration: pw.BoxDecoration(
+                              color: PdfColors.green600,
+                              shape: pw.BoxShape.circle,
+                            ),
                             child: pw.Center(
-                              child: pw.Text('${entry.key + 1}',
-                                  style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold, color: PdfColors.white)),
+                              child: pw.Text(
+                                '${entry.key + 1}',
+                                style: pw.TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColors.white,
+                                ),
+                              ),
                             ),
                           ),
                           pw.SizedBox(width: 12),
@@ -519,7 +601,10 @@ class ResultsScreen extends StatelessWidget {
                             child: pw.Text(
                               // FIX #6: AI recommendations — no .tr() here
                               _cleanRecommendation(entry.value),
-                              style: pw.TextStyle(fontSize: 14, color: PdfColors.grey800),
+                              style: pw.TextStyle(
+                                fontSize: 14,
+                                color: PdfColors.grey800,
+                              ),
                             ),
                           ),
                         ],
@@ -540,7 +625,9 @@ class ResultsScreen extends StatelessWidget {
 
       final sanitizedName = _sanitizeFileName(child.name);
       final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final file = File('${pdfDir.path}/assessment_${sanitizedName}_$timestamp.pdf');
+      final file = File(
+        '${pdfDir.path}/assessment_${sanitizedName}_$timestamp.pdf',
+      );
       await file.writeAsBytes(await pdf.save());
 
       if (context.mounted) Navigator.pop(context);
@@ -594,11 +681,16 @@ class ResultsScreen extends StatelessWidget {
 
   String _getAnswerText(int answer) {
     switch (answer) {
-      case 0: return 'never'.tr();
-      case 1: return 'rarely'.tr();
-      case 2: return 'sometimes'.tr();
-      case 3: return 'often'.tr();
-      default: return 'unknown'.tr();
+      case 0:
+        return 'never'.tr();
+      case 1:
+        return 'rarely'.tr();
+      case 2:
+        return 'sometimes'.tr();
+      case 3:
+        return 'often'.tr();
+      default:
+        return 'unknown'.tr();
     }
   }
 
@@ -612,11 +704,16 @@ class ResultsScreen extends StatelessWidget {
 
   PdfColor _getAnswerColor(int answer) {
     switch (answer) {
-      case 0: return PdfColors.green600;
-      case 1: return PdfColors.lightGreen600;
-      case 2: return PdfColors.yellow600;
-      case 3: return PdfColors.orange600;
-      default: return PdfColors.grey500;
+      case 0:
+        return PdfColors.green600;
+      case 1:
+        return PdfColors.lightGreen600;
+      case 2:
+        return PdfColors.yellow600;
+      case 3:
+        return PdfColors.orange600;
+      default:
+        return PdfColors.grey500;
     }
   }
 
@@ -639,10 +736,15 @@ class ResultsScreen extends StatelessWidget {
   }
 
   List<Color> _getScoreGradient(int tScore, bool isDark) {
-    if (tScore >= 70)      return [Colors.red.shade700, Colors.red.shade900];
-    else if (tScore >= 65) return [Colors.orange.shade700, Colors.orange.shade900];
-    else if (tScore >= 60) return [Colors.yellow.shade700, Colors.yellow.shade900];
-    else if (tScore >= 45) return [Colors.green.shade500, Colors.green.shade700];
-    else                   return [Colors.blue.shade500, Colors.blue.shade700];
+    if (tScore >= 70) {
+      return [Colors.red.shade700, Colors.red.shade900];
+    } else if (tScore >= 65)
+      return [Colors.orange.shade700, Colors.orange.shade900];
+    else if (tScore >= 60)
+      return [Colors.yellow.shade700, Colors.yellow.shade900];
+    else if (tScore >= 45)
+      return [Colors.green.shade500, Colors.green.shade700];
+    else
+      return [Colors.blue.shade500, Colors.blue.shade700];
   }
 }

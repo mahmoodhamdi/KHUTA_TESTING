@@ -37,10 +37,16 @@ service cloud.firestore {
         && data.testType is string;
     }
 
-    // Users collection - no direct access to user document
+    // Users collection - owner can read/write their own profile document
     match /users/{userId} {
-      // Users cannot read/write user documents directly
-      allow read, write: if false;
+      // Owner can read their own profile (role lookup on login)
+      allow read: if isOwner(userId);
+
+      // Owner can create/update their own profile (role, last_login, auth_provider, email, phone_number)
+      allow create, update: if isOwner(userId);
+
+      // No hard deletes of the user profile from clients
+      allow delete: if false;
 
       // Children subcollection
       match /children/{childId} {

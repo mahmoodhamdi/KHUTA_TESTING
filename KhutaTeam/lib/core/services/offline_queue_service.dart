@@ -37,6 +37,8 @@ class QueuedOperation {
       id: json['id'] as String,
       type: OfflineOperationType.values.firstWhere(
         (e) => e.name == json['type'],
+        orElse: () =>
+            throw FormatException('Unknown offline op type: ${json['type']}'),
       ),
       data: Map<String, dynamic>.from(json['data'] as Map),
       timestamp: DateTime.parse(json['timestamp'] as String),
@@ -97,9 +99,16 @@ class OfflineQueueService {
     final prefs = await SharedPreferences.getInstance();
     final queueJson = prefs.getStringList(_queueKey) ?? [];
 
-    return queueJson
-        .map((json) => QueuedOperation.fromJson(jsonDecode(json)))
-        .toList();
+    final result = <QueuedOperation>[];
+    for (final json in queueJson) {
+      try {
+        result.add(QueuedOperation.fromJson(jsonDecode(json)));
+      } catch (e) {
+        // Skip malformed/unknown entries instead of breaking the whole queue.
+        if (kDebugMode) debugPrint('Skipping invalid queued operation: $e');
+      }
+    }
+    return result;
   }
 
   /// Gets the number of pending operations.

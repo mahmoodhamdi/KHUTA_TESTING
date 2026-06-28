@@ -91,7 +91,9 @@ class _LoginScreenState extends State<LoginScreen>
         }
       },
       child: Scaffold(
-        backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
@@ -112,13 +114,13 @@ class _LoginScreenState extends State<LoginScreen>
 
                   // ── Headline ──────────────────────────────────────────
                   Text(
-                    'auth_welcome_title'.tr(),
-                    style: theme.textTheme.displaySmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.softBlue,
-                    ),
-                    textAlign: TextAlign.center,
-                  )
+                        'auth_welcome_title'.tr(),
+                        style: theme.textTheme.displaySmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.softBlue,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
                       .animate()
                       .fadeIn(delay: 150.ms, duration: 500.ms)
                       .slideY(begin: 0.1),
@@ -131,16 +133,12 @@ class _LoginScreenState extends State<LoginScreen>
                       color: isDark ? Colors.white54 : Colors.black45,
                     ),
                     textAlign: TextAlign.center,
-                  )
-                      .animate()
-                      .fadeIn(delay: 250.ms, duration: 500.ms),
+                  ).animate().fadeIn(delay: 250.ms, duration: 500.ms),
 
                   const SizedBox(height: 48),
 
                   // ── Google button ─────────────────────────────────────
-                  _GoogleSignInButton(
-                    onPressed: _handleGoogleSignIn,
-                  )
+                  _GoogleSignInButton(onPressed: _handleGoogleSignIn)
                       .animate()
                       .fadeIn(delay: 350.ms, duration: 500.ms)
                       .slideX(begin: -0.05),
@@ -148,9 +146,10 @@ class _LoginScreenState extends State<LoginScreen>
                   const SizedBox(height: 16),
 
                   // ── Divider ───────────────────────────────────────────
-                  _OrDivider()
-                      .animate()
-                      .fadeIn(delay: 450.ms, duration: 400.ms),
+                  _OrDivider().animate().fadeIn(
+                    delay: 450.ms,
+                    duration: 400.ms,
+                  ),
 
                   const SizedBox(height: 16),
 
@@ -160,18 +159,19 @@ class _LoginScreenState extends State<LoginScreen>
                     crossFadeState: _showPhoneField
                         ? CrossFadeState.showSecond
                         : CrossFadeState.showFirst,
-                    firstChild: _PhoneOptionButton(
-                      onPressed: () {
-                        setState(() => _showPhoneField = true);
-                        Future.delayed(
-                          const Duration(milliseconds: 400),
-                          () => _phoneFocusNode.requestFocus(),
-                        );
-                      },
-                    )
-                        .animate()
-                        .fadeIn(delay: 550.ms, duration: 500.ms)
-                        .slideX(begin: 0.05),
+                    firstChild:
+                        _PhoneOptionButton(
+                              onPressed: () {
+                                setState(() => _showPhoneField = true);
+                                Future.delayed(
+                                  const Duration(milliseconds: 400),
+                                  () => _phoneFocusNode.requestFocus(),
+                                );
+                              },
+                            )
+                            .animate()
+                            .fadeIn(delay: 550.ms, duration: 500.ms)
+                            .slideX(begin: 0.05),
                     secondChild: _PhoneInputPanel(
                       controller: _phoneController,
                       focusNode: _phoneFocusNode,
@@ -226,14 +226,17 @@ class _LoginScreenState extends State<LoginScreen>
         height: 120,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [AppColors.softBlue.withOpacity(0.15), AppColors.calmGreen.withOpacity(0.15)],
+            colors: [
+              AppColors.softBlue.withValues(alpha: 0.15),
+              AppColors.calmGreen.withValues(alpha: 0.15),
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
-              color: AppColors.softBlue.withOpacity(0.2),
+              color: AppColors.softBlue.withValues(alpha: 0.2),
               blurRadius: 24,
               offset: const Offset(0, 8),
             ),
@@ -244,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen>
           child: Image.asset(
             'assets/images/logo.png',
             fit: BoxFit.contain,
-            errorBuilder: (_, __, ___) => Icon(
+            errorBuilder: (_, _, _) => Icon(
               Icons.psychology_outlined,
               size: 56,
               color: AppColors.softBlue,
@@ -416,12 +419,12 @@ class _PhoneInputPanel extends StatelessWidget {
         color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.softBlue.withOpacity(0.4),
+          color: AppColors.softBlue.withValues(alpha: 0.4),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.softBlue.withOpacity(0.08),
+            color: AppColors.softBlue.withValues(alpha: 0.08),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -432,23 +435,30 @@ class _PhoneInputPanel extends StatelessWidget {
         children: [
           Text(
             'auth_enter_phone_number'.tr(),
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 12),
           TextFormField(
             controller: controller,
             focusNode: focusNode,
             keyboardType: TextInputType.phone,
-            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9+]'))],
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
+            ],
             textInputAction: TextInputAction.done,
             onFieldSubmitted: (_) => onSend(),
             decoration: InputDecoration(
               hintText: 'auth_phone_hint'.tr(),
-              prefixIcon: const Icon(Icons.phone_outlined, color: AppColors.softBlue),
+              prefixIcon: const Icon(
+                Icons.phone_outlined,
+                color: AppColors.softBlue,
+              ),
               filled: true,
-              fillColor: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFF5F9FF),
+              fillColor: isDark
+                  ? const Color(0xFF2A2A2A)
+                  : const Color(0xFFF5F9FF),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide.none,
@@ -459,7 +469,10 @@ class _PhoneInputPanel extends StatelessWidget {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.softBlue, width: 1.5),
+                borderSide: const BorderSide(
+                  color: AppColors.softBlue,
+                  width: 1.5,
+                ),
               ),
             ),
             validator: (value) {

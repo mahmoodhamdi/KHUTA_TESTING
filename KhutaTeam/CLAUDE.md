@@ -2,9 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Project location:** The Flutter app lives in the `KhutaTeam/` directory. Run all `flutter`/`dart` commands from there. The sibling `mobile_preview/` is a separate standalone Flutter copy used for UI preview — changes to the main app are **not** automatically reflected there.
+
 ## Build & Development Commands
 
 ```bash
+# Static analysis / lint
+flutter analyze
+
 # Install dependencies
 flutter pub get
 
@@ -49,6 +54,8 @@ flutter build ios --release
   - `OnboardingCubit` - First-time user onboarding flow
   - `ChildCubit` - Manages child profiles (CRUD operations)
   - `AssessmentCubit` - Manages assessment flow (navigation, answers, submission)
+  - `DoctorCubit` - Loads/filters doctors and books appointments (specialist directory)
+  - `GameCubit` - Drives the cognitive mini-game session (task generation, scoring, timing)
 
 ### Core Services
 - `SdqScoringService` - Calculates T-scores from assessment answers using age/gender-based scoring tables
@@ -63,6 +70,8 @@ flutter build ios --release
 
 - `ConnectivityService` - Checks network connectivity before making AI calls
 
+- `OfflineQueueService` - Persists mutations (`addChild`/`updateChild`/`deleteChild`/`saveTestResult`) to SharedPreferences while offline and replays them once connectivity returns
+
 - `ErrorHandlerService` - Centralized error handling with localized messages
 
 - `AccessibilityUtils` - Helper methods for screen reader accessibility
@@ -71,8 +80,8 @@ flutter build ios --release
 - Abstract repository interfaces in `lib/core/repositories/` define contracts:
   - `ChildRepository` - CRUD operations for child profiles
   - `TestResultRepository` - CRUD operations for assessment results
-- Concrete Firebase implementations in `lib/data/repositories/`
-- `ServiceLocator` in `lib/core/di/service_locator.dart` provides singleton repositories
+- Concrete Firebase implementations in `lib/data/repositories/` (`FirebaseChildRepository`, `FirebaseTestResultRepository`, plus `DoctorRepository` and `GameSessionRepository` which are concrete-only, no abstract interface)
+- `ServiceLocator` in `lib/core/di/service_locator.dart` provides singleton repositories (`childRepository`, `testResultRepository`, `doctorRepository`)
 - For testing: use `ServiceLocator().registerChildRepository(mockRepo)` or `registerTestResultRepository(mockRepo)` to inject mocks, call `reset()` in tearDown
 
 ### Assessment Flow
@@ -83,6 +92,16 @@ flutter build ios --release
 5. AI recommendations are fetched via `AiRecommendationsService` (with fallback if AI fails)
 6. Results and recommendations are saved via `TestResultRepository`
 7. `ResultsScreen` displays score, interpretation, and recommendations with PDF export option
+
+### Doctor Directory & Admin
+- `DoctorCubit` + `DoctorRepository` back a specialist directory and appointment booking (`screens/doctors/`: specialists list, detail, booking, success).
+- `screens/admin/` provides an admin dashboard for managing doctors (`add_edit_doctor_screen.dart`) and viewing appointments. The admin panel is reached from the Settings screen.
+- Models: `lib/models/doctor.dart`, `lib/models/appointment.dart`.
+
+### Cognitive Game
+- An interactive attention/working-memory mini-game separate from the questionnaire, used as a complementary signal.
+- `GameCubit` generates `GameTask`s of `TaskType.cpt | memory | inhibition`, times responses, and scores the session.
+- UI in `screens/child/game/` (`game_screen.dart`, `game_results_screen.dart`, task widgets); sessions persist via `GameSessionRepository`; model in `lib/models/game_session.dart`.
 
 ### Error Handling Architecture
 - Custom exception classes in `lib/core/exceptions/`:
@@ -98,7 +117,8 @@ flutter build ios --release
 - **Firebase Auth** - User authentication with email verification flow
 - **Cloud Firestore** - Cloud data storage for children and test results
 - **SQLite (sqflite)** - Local data storage
-- **Firebase App Check** - API security (currently only Android configured with `AndroidDebugProvider`)
+- **Firestore offline persistence** - Enabled in `main()` with unlimited cache size
+- **Firebase App Check** - API security. Provider is selected by build mode via `AppConfig` (`lib/core/config/app_config.dart`, wraps `kDebugMode`/`kReleaseMode`): debug builds use `AndroidDebugProvider`/`AppleDebugProvider`, release builds use `AndroidPlayIntegrityProvider`/`AppleDeviceCheckProvider`
 
 ### Localization
 - Uses `easy_localization` package
@@ -115,6 +135,7 @@ flutter build ios --release
 - After adding `@GenerateMocks`, run `dart run build_runner build --delete-conflicting-outputs` to regenerate mocks
 - Soft delete pattern: entities have `isDeleted` flag, queries filter out deleted items
 - App is portrait-only (enforced via `SystemChrome.setPreferredOrientations`)
+- Lint config (`analysis_options.yaml`) extends `flutter_lints` but sets `use_build_context_synchronously: ignore` — async-gap `BuildContext` use will not be flagged
 
 ### Testing Setup
 - Tests require localization setup via `setupLocalizationForTest()` from `test/helpers/test_helpers.dart`

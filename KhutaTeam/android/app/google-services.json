@@ -1,26 +1,67 @@
 {
   "project_info": {
-    "project_number": "636237287158",
-    "project_id": "khuta-6232",
-    "storage_bucket": "khuta-6232.firebasestorage.app"
+    "project_number": "706590459247",
+    "project_id": "khuta-1febc",
+    "storage_bucket": "khuta-1febc.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:636237287158:android:a3c87a3271cd8773a2e6d7",
+        "mobilesdk_app_id": "1:706590459247:android:073c679891a780e84d949a",
         "android_client_info": {
           "package_name": "com.example.khuta"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "706590459247-13v47pjkdjqs432u5bfv0va6pavobpuu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khuta",
+            "certificate_hash": "750bc413a83c62caf398a7bcad538bc81545ff3f"
+          }
+        },
+        {
+          "client_id": "706590459247-3mbqqssjuuf4lmiccvbn97pemms3jh1p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khuta",
+            "certificate_hash": "867c6edfd2d8e87c749830a1a3d00b602cd9589d"
+          }
+        },
+        {
+          "client_id": "706590459247-9i5s4plau9p916ih3cnv7m6bvk16c8id.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khuta",
+            "certificate_hash": "1a7740461ca8a9382a23db12e473a9c71c3471dd"
+          }
+        },
+        {
+          "client_id": "706590459247-sd0ga93l95457pmidlkmoako303jqt8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAcV0eqbxk6RosFUh6rgQSXgiQCtf3b0GA"
+          "current_key": "AIzaSyCqLeIgW22aVDsIq_wVQtBxQSnTFxjUjaI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706590459247-sd0ga93l95457pmidlkmoako303jqt8g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "706590459247-9nrglgv6ao4kfias142oobaa4adltp4c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.khuta"
+              }
+            }
+          ]
         }
       }
     }

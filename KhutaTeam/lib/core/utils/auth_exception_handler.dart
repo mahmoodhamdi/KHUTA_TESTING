@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 class AuthExceptionHandler {
   static String handleException(dynamic error) {
@@ -45,11 +46,16 @@ class AuthExceptionHandler {
           return 'auth_network_error'.tr();
 
         default:
-          return '${error.message ?? error.code} (${error.code})';
+          if (kDebugMode) {
+            debugPrint(
+                'Unhandled FirebaseAuthException: ${error.code} — ${error.message}');
+          }
+          return 'auth_unknown_error'.tr();
       }
     }
 
-    return '${'auth_unknown_error'.tr()} [$error]';
+    if (kDebugMode) debugPrint('Unhandled auth error: $error');
+    return 'auth_unknown_error'.tr();
   }
 }
 

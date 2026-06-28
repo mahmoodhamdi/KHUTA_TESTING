@@ -30,28 +30,28 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAcV0eqbxk6RosFUh6rgQSXgiQCtf3b0GA',
-    appId: '1:636237287158:web:7ef82b6c7ad721d6a2e6d7',
-    messagingSenderId: '636237287158',
-    projectId: 'khuta-6232',
-    authDomain: 'khuta-6232.firebaseapp.com',
-    storageBucket: 'khuta-6232.firebasestorage.app',
+    apiKey: 'AIzaSyDqPh9zm8xeZR0JrnMSboRni3UTqRNS8HQ',
+    appId: '1:706590459247:web:557df104f45f70254d949a',
+    messagingSenderId: '706590459247',
+    projectId: 'khuta-1febc',
+    authDomain: 'khuta-1febc.firebaseapp.com',
+    storageBucket: 'khuta-1febc.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAcV0eqbxk6RosFUh6rgQSXgiQCtf3b0GA',
-    appId: '1:636237287158:android:a3c87a3271cd8773a2e6d7',
-    messagingSenderId: '636237287158',
-    projectId: 'khuta-6232',
-    storageBucket: 'khuta-6232.firebasestorage.app',
+    apiKey: 'AIzaSyCqLeIgW22aVDsIq_wVQtBxQSnTFxjUjaI',
+    appId: '1:706590459247:android:073c679891a780e84d949a',
+    messagingSenderId: '706590459247',
+    projectId: 'khuta-1febc',
+    storageBucket: 'khuta-1febc.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDL0sYUPP-QbA8pUL6xcaAIQYvJrWPSQB0',
-    appId: '1:636237287158:ios:f7c1d7b05637c1fda2e6d7',
-    messagingSenderId: '636237287158',
-    projectId: 'khuta-6232',
-    storageBucket: 'khuta-6232.firebasestorage.app',
+    apiKey: 'AIzaSyDfiG6jzH-e2nwy-FHlcRSuNstMk5AuhSY',
+    appId: '1:706590459247:ios:386ace763e49328f4d949a',
+    messagingSenderId: '706590459247',
+    projectId: 'khuta-1febc',
+    storageBucket: 'khuta-1febc.firebasestorage.app',
+    iosClientId: '706590459247-9nrglgv6ao4kfias142oobaa4adltp4c.apps.googleusercontent.com',
     iosBundleId: 'com.example.khuta',
   );
 }

@@ -155,12 +155,15 @@ class AuthCubit extends Cubit<AuthState> {
         timeout: const Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential credential) async {
           // Auto-retrieval on Android – sign in immediately.
+          if (isClosed) return;
           await _signInWithPhoneCredential(credential, phoneNumber);
         },
         verificationFailed: (FirebaseAuthException e) {
+          if (isClosed) return;
           emit(AuthFailure(message: AuthExceptionHandler.handleException(e)));
         },
         codeSent: (String verificationId, int? resendToken) {
+          if (isClosed) return;
           emit(AuthOtpSent(
             phoneNumber: phoneNumber,
             verificationId: verificationId,
@@ -271,17 +274,17 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  /// Returns true only if the user doc exists AND has a non-empty role.
+  ///
+  /// A genuinely missing document returns false (first-time user), but any
+  /// real failure (permission/network) is rethrown so callers surface it as
+  /// [AuthFailure] instead of silently downgrading the user to role-required.
   Future<bool> _userHasRole(String uid) async {
-    try {
-      final doc = await _firestore.collection('users').doc(uid).get();
-      if (!doc.exists) return false;
-      final data = doc.data();
-      return data != null &&
-          data['role'] != null &&
-          (data['role'] as String).isNotEmpty;
-    } catch (_) {
-      return false;
-    }
+    final doc = await _firestore.collection('users').doc(uid).get();
+    if (!doc.exists) return false;
+    final data = doc.data();
+    final role = data?['role'];
+    return role is String && role.isNotEmpty;
   }
 
   Future<void> _upsertUserDocument({

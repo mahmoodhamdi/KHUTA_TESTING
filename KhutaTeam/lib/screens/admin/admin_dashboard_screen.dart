@@ -103,12 +103,13 @@ class _AdminDashboardView extends StatelessWidget {
     );
   }
 
-  Widget _buildStats(
-      BuildContext context, DoctorState state, bool isDark) {
+  Widget _buildStats(BuildContext context, DoctorState state, bool isDark) {
     final total = state.doctors.length;
     final active = state.doctors.where((d) => d.isActive).length;
     final totalCases = state.doctors.fold<int>(
-        0, (sum, d) => sum + d.adhdCasesHandled);
+      0,
+      (sum, d) => sum + d.adhdCasesHandled,
+    );
 
     return Container(
       color: const Color(0xFF1A56DB),
@@ -144,17 +145,16 @@ class _AdminDashboardView extends StatelessWidget {
   }
 
   Widget _buildDoctorList(
-      BuildContext context, DoctorState state, bool isDark) {
+    BuildContext context,
+    DoctorState state,
+    bool isDark,
+  ) {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: state.doctors.length,
       itemBuilder: (context, index) {
         final doctor = state.doctors[index];
-        return _AdminDoctorCard(
-          doctor: doctor,
-          isDark: isDark,
-          index: index,
-        );
+        return _AdminDoctorCard(doctor: doctor, isDark: isDark, index: index);
       },
     );
   }
@@ -164,7 +164,11 @@ class _AdminDashboardView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.medical_services_outlined, size: 80, color: Colors.grey[400]),
+          Icon(
+            Icons.medical_services_outlined,
+            size: 80,
+            color: Colors.grey[400],
+          ),
           const SizedBox(height: 16),
           Text(
             'no_doctors_yet'.tr(),
@@ -192,8 +196,11 @@ class _StatBox extends StatelessWidget {
   final String value;
   final IconData icon;
 
-  const _StatBox(
-      {required this.label, required this.value, required this.icon});
+  const _StatBox({
+    required this.label,
+    required this.value,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -237,129 +244,155 @@ class _AdminDoctorCard extends StatelessWidget {
   final bool isDark;
   final int index;
 
-  const _AdminDoctorCard(
-      {required this.doctor, required this.isDark, required this.index});
+  const _AdminDoctorCard({
+    required this.doctor,
+    required this.isDark,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      decoration: BoxDecoration(
-        color: HomeScreenTheme.cardBackground(isDark),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [HomeScreenTheme.cardShadow(isDark)],
-        border: doctor.isActive
-            ? null
-            : Border.all(color: Colors.red.withValues(alpha: 0.3)),
-      ),
-      child: Column(
-        children: [
-          ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            leading: _DoctorAvatarSmall(doctor: doctor),
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    doctor.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: HomeScreenTheme.primaryText(isDark),
-                    ),
-                  ),
+          margin: const EdgeInsets.only(bottom: 14),
+          decoration: BoxDecoration(
+            color: HomeScreenTheme.cardBackground(isDark),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [HomeScreenTheme.cardShadow(isDark)],
+            border: doctor.isActive
+                ? null
+                : Border.all(color: Colors.red.withValues(alpha: 0.3)),
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-                if (!doctor.isActive)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.red.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      'inactive'.tr(),
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
+                leading: _DoctorAvatarSmall(doctor: doctor),
+                title: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        doctor.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: HomeScreenTheme.primaryText(isDark),
+                        ),
                       ),
                     ),
-                  ),
-              ],
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  doctor.specialization,
-                  style: const TextStyle(
-                    color: Color(0xFF1A56DB),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(Icons.star_rounded,
-                        color: Color(0xFFF59E0B), size: 14),
-                    const SizedBox(width: 2),
-                    Text('${doctor.rating.toStringAsFixed(1)}',
-                        style: const TextStyle(fontSize: 12)),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.psychology_rounded,
-                        color: Colors.teal, size: 14),
-                    const SizedBox(width: 2),
-                    Text('${doctor.adhdCasesHandled} ${'cases'.tr()}',
-                        style: const TextStyle(fontSize: 12)),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.attach_money_rounded,
-                        color: Color(0xFF1A56DB), size: 14),
-                    Text('${doctor.consultationPrice.toStringAsFixed(0)}',
-                        style: const TextStyle(fontSize: 12)),
+                    if (!doctor.isActive)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          'inactive'.tr(),
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          const Divider(height: 1),
-          Row(
-            children: [
-              Expanded(
-                child: _ActionButton(
-                  icon: Icons.edit_rounded,
-                  label: 'edit'.tr(),
-                  color: const Color(0xFF1A56DB),
-                  onTap: () async {
-                    final result = await Navigator.push<bool>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => AddEditDoctorScreen(doctor: doctor),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      doctor.specialization,
+                      style: const TextStyle(
+                        color: Color(0xFF1A56DB),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
                       ),
-                    );
-                    if (result == true && context.mounted) {
-                      context
-                          .read<DoctorCubit>()
-                          .loadDoctors(activeOnly: false);
-                    }
-                  },
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.star_rounded,
+                          color: Color(0xFFF59E0B),
+                          size: 14,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          doctor.rating.toStringAsFixed(1),
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        const SizedBox(width: 10),
+                        const Icon(
+                          Icons.psychology_rounded,
+                          color: Colors.teal,
+                          size: 14,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          '${doctor.adhdCasesHandled} ${'cases'.tr()}',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        const SizedBox(width: 10),
+                        const Icon(
+                          Icons.attach_money_rounded,
+                          color: Color(0xFF1A56DB),
+                          size: 14,
+                        ),
+                        Text(
+                          doctor.consultationPrice.toStringAsFixed(0),
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              Container(width: 1, height: 40, color: Colors.grey.withValues(alpha: 0.2)),
-              Expanded(
-                child: _ActionButton(
-                  icon: Icons.delete_outline_rounded,
-                  label: 'delete'.tr(),
-                  color: Colors.red,
-                  onTap: () => _showDeleteDialog(context, doctor),
-                ),
+              const Divider(height: 1),
+              Row(
+                children: [
+                  Expanded(
+                    child: _ActionButton(
+                      icon: Icons.edit_rounded,
+                      label: 'edit'.tr(),
+                      color: const Color(0xFF1A56DB),
+                      onTap: () async {
+                        final result = await Navigator.push<bool>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AddEditDoctorScreen(doctor: doctor),
+                          ),
+                        );
+                        if (result == true && context.mounted) {
+                          context.read<DoctorCubit>().loadDoctors(
+                            activeOnly: false,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: 40,
+                    color: Colors.grey.withValues(alpha: 0.2),
+                  ),
+                  Expanded(
+                    child: _ActionButton(
+                      icon: Icons.delete_outline_rounded,
+                      label: 'delete'.tr(),
+                      color: Colors.red,
+                      onTap: () => _showDeleteDialog(context, doctor),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-    )
+        )
         .animate(delay: Duration(milliseconds: index * 60))
         .fadeIn(duration: 350.ms)
         .slideX(begin: 0.15, end: 0);
@@ -382,8 +415,10 @@ class _AdminDoctorCard extends StatelessWidget {
               context.read<DoctorCubit>().deleteDoctor(doctor.id);
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: Text('delete'.tr(),
-                style: const TextStyle(color: Colors.white)),
+            child: Text(
+              'delete'.tr(),
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -419,8 +454,10 @@ class _ActionButton extends StatelessWidget {
           children: [
             Icon(icon, size: 16, color: color),
             const SizedBox(width: 6),
-            Text(label,
-                style: TextStyle(color: color, fontWeight: FontWeight.w600)),
+            Text(
+              label,
+              style: TextStyle(color: color, fontWeight: FontWeight.w600),
+            ),
           ],
         ),
       ),

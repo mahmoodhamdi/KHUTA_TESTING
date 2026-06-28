@@ -33,11 +33,19 @@ class GameTask {
   static const _cptTargets = ['⭐', '🌟', '✨'];
   static const _cptNoise = ['🔴', '🔷', '🔶', '🟢', '🟣', '⬛', '🔸'];
   static const _memItems = [
-    '🍎', '🐶', '🚀', '🌈', '🎈', '🏆', '🦋', '🎯', '🍕', '🐱'
+    '🍎',
+    '🐶',
+    '🚀',
+    '🌈',
+    '🎈',
+    '🏆',
+    '🦋',
+    '🎯',
+    '🍕',
+    '🐱',
   ];
 
-  factory GameTask.generate(
-      {required TaskType type, required int difficulty}) {
+  factory GameTask.generate({required TaskType type, required int difficulty}) {
     final id = const Uuid().v4();
     final rand = Random();
     final timeoutMs = (3500 - (difficulty - 1) * 400).clamp(1500, 3500);
@@ -66,7 +74,9 @@ class GameTask {
       case TaskType.memory:
         final len = (difficulty + 1).clamp(2, 6);
         final seq = List.generate(
-            len, (_) => _memItems[rand.nextInt(_memItems.length)]);
+          len,
+          (_) => _memItems[rand.nextInt(_memItems.length)],
+        );
         return GameTask(
           id: id,
           type: TaskType.memory,
@@ -92,17 +102,18 @@ class GameCubit extends Cubit<GameState> {
 
   // ─── Start ────────────────────────────────────────────
   Future<void> startSession() async {
-    final lastDiff =
-        await GameSessionRepository.getLastDifficulty(child.id);
-    emit(state.copyWith(
-      status: GameStatus.inProgress,
-      difficulty: lastDiff,
-      timeLeftSeconds: sessionDurationSeconds,
-      taskResults: [],
-      clearTask: true,
-      sessionStartTime: DateTime.now(),
-      feedback: FeedbackType.none,
-    ));
+    final lastDiff = await GameSessionRepository.getLastDifficulty(child.id);
+    emit(
+      state.copyWith(
+        status: GameStatus.inProgress,
+        difficulty: lastDiff,
+        timeLeftSeconds: sessionDurationSeconds,
+        taskResults: [],
+        clearTask: true,
+        sessionStartTime: DateTime.now(),
+        feedback: FeedbackType.none,
+      ),
+    );
     _startTimer();
     _nextTask();
   }
@@ -110,7 +121,10 @@ class GameCubit extends Cubit<GameState> {
   void _startTimer() {
     _sessionTimer?.cancel();
     _sessionTimer = Timer.periodic(const Duration(seconds: 1), (t) {
-      if (isClosed) { t.cancel(); return; }
+      if (isClosed) {
+        t.cancel();
+        return;
+      }
       final newTime = state.timeLeftSeconds - 1;
       if (newTime <= 0) {
         t.cancel();
@@ -152,12 +166,14 @@ class GameCubit extends Cubit<GameState> {
       type = TaskType.inhibition;
     }
 
-    final task =
-        GameTask.generate(type: type, difficulty: state.difficulty);
-    emit(state.copyWith(
+    final task = GameTask.generate(type: type, difficulty: state.difficulty);
+    emit(
+      state.copyWith(
         currentTask: task,
         taskShownAt: DateTime.now(),
-        feedback: FeedbackType.none));
+        feedback: FeedbackType.none,
+      ),
+    );
 
     _taskTimer = Timer(Duration(milliseconds: task.timeoutMs), () {
       if (!isClosed &&
@@ -180,8 +196,10 @@ class GameCubit extends Cubit<GameState> {
     if (task == null) return;
 
     final shownAt = state.taskShownAt ?? DateTime.now();
-    final reactionMs =
-        DateTime.now().difference(shownAt).inMilliseconds.clamp(0, taskTimeoutMs);
+    final reactionMs = DateTime.now()
+        .difference(shownAt)
+        .inMilliseconds
+        .clamp(0, taskTimeoutMs);
     final isCorrect = task.requiresTap == responded;
 
     final result = TaskResult(
@@ -194,12 +212,14 @@ class GameCubit extends Cubit<GameState> {
     final newResults = [...state.taskResults, result];
     final newDiff = _adaptDifficulty(newResults);
 
-    emit(state.copyWith(
-      taskResults: newResults,
-      difficulty: newDiff,
-      clearTask: true,
-      feedback: isCorrect ? FeedbackType.correct : FeedbackType.wrong,
-    ));
+    emit(
+      state.copyWith(
+        taskResults: newResults,
+        difficulty: newDiff,
+        clearTask: true,
+        feedback: isCorrect ? FeedbackType.correct : FeedbackType.wrong,
+      ),
+    );
 
     Future.delayed(const Duration(milliseconds: 650), () {
       if (!isClosed && state.status == GameStatus.inProgress) {
@@ -221,8 +241,10 @@ class GameCubit extends Cubit<GameState> {
         : correct.fold(0, (s, r) => s + r.reactionTimeMs) ~/ correct.length;
 
     int d = state.difficulty;
-    if (acc >= 80 && avgR < 1600 && d < 5) d++;
-    else if (acc < 45 && d > 1) d--;
+    if (acc >= 80 && avgR < 1600 && d < 5) {
+      d++;
+    } else if (acc < 45 && d > 1)
+      d--;
     return d;
   }
 
@@ -254,8 +276,9 @@ class GameCubit extends Cubit<GameState> {
     }
 
     if (!isClosed) {
-      emit(state.copyWith(
-          status: GameStatus.completed, completedSession: session));
+      emit(
+        state.copyWith(status: GameStatus.completed, completedSession: session),
+      );
     }
   }
 

@@ -113,10 +113,7 @@ class _SpecialistsViewState extends State<_SpecialistsView> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.red.shade50,
-            Colors.orange.shade50,
-          ],
+          colors: [Colors.red.shade50, Colors.orange.shade50],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.red.shade200),
@@ -129,8 +126,11 @@ class _SpecialistsViewState extends State<_SpecialistsView> {
               color: Colors.red.shade100,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.warning_amber_rounded,
-                color: Colors.red.shade700, size: 26),
+            child: Icon(
+              Icons.warning_amber_rounded,
+              color: Colors.red.shade700,
+              size: 26,
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -204,16 +204,18 @@ class _SpecialistsViewState extends State<_SpecialistsView> {
                 label: 'filter_rating'.tr(),
                 icon: Icons.star_rounded,
                 isSelected: state.activeFilter == DoctorFilter.rating,
-                onTap: () =>
-                    context.read<DoctorCubit>().applyFilter(DoctorFilter.rating),
+                onTap: () => context.read<DoctorCubit>().applyFilter(
+                  DoctorFilter.rating,
+                ),
               ),
               const SizedBox(width: 8),
               _FilterChip(
                 label: 'filter_experience'.tr(),
                 icon: Icons.workspace_premium_rounded,
                 isSelected: state.activeFilter == DoctorFilter.experience,
-                onTap: () =>
-                    context.read<DoctorCubit>().applyFilter(DoctorFilter.experience),
+                onTap: () => context.read<DoctorCubit>().applyFilter(
+                  DoctorFilter.experience,
+                ),
               ),
               const SizedBox(width: 8),
               _FilterChip(
@@ -228,9 +230,9 @@ class _SpecialistsViewState extends State<_SpecialistsView> {
                 label: 'filter_availability'.tr(),
                 icon: Icons.schedule_rounded,
                 isSelected: state.activeFilter == DoctorFilter.availability,
-                onTap: () => context
-                    .read<DoctorCubit>()
-                    .applyFilter(DoctorFilter.availability),
+                onTap: () => context.read<DoctorCubit>().applyFilter(
+                  DoctorFilter.availability,
+                ),
               ),
             ],
           ),
@@ -246,7 +248,10 @@ class _SpecialistsViewState extends State<_SpecialistsView> {
             state.status == DoctorStatus.initial) {
           return SliverToBoxAdapter(
             child: Column(
-              children: List.generate(3, (_) => _DoctorCardSkeleton(isDark: isDark)),
+              children: List.generate(
+                3,
+                (_) => _DoctorCardSkeleton(isDark: isDark),
+              ),
             ),
           );
         }
@@ -266,18 +271,15 @@ class _SpecialistsViewState extends State<_SpecialistsView> {
         }
 
         return SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final doctor = state.filteredDoctors[index];
-              return _DoctorCard(
-                doctor: doctor,
-                child: widget.child,
-                index: index,
-                isDark: isDark,
-              );
-            },
-            childCount: state.filteredDoctors.length,
-          ),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            final doctor = state.filteredDoctors[index];
+            return _DoctorCard(
+              doctor: doctor,
+              child: widget.child,
+              index: index,
+              isDark: isDark,
+            );
+          }, childCount: state.filteredDoctors.length),
         );
       },
     );
@@ -316,9 +318,11 @@ class _FilterChip extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon,
-                size: 16,
-                color: isSelected ? Colors.white : Colors.grey.shade600),
+            Icon(
+              icon,
+              size: 16,
+              color: isSelected ? Colors.white : Colors.grey.shade600,
+            ),
             const SizedBox(width: 6),
             Text(
               label,
@@ -353,43 +357,44 @@ class _DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      decoration: BoxDecoration(
-        color: HomeScreenTheme.cardBackground(isDark),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.07),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => DoctorDetailScreen(doctor: doctor, child: child),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(context),
-              const SizedBox(height: 12),
-              _buildBio(),
-              const SizedBox(height: 12),
-              _buildAvailability(),
-              const SizedBox(height: 14),
-              _buildActions(context),
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          decoration: BoxDecoration(
+            color: HomeScreenTheme.cardBackground(isDark),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.07),
+                blurRadius: 16,
+                offset: const Offset(0, 4),
+              ),
             ],
           ),
-        ),
-      ),
-    )
+          child: InkWell(
+            borderRadius: BorderRadius.circular(20),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    DoctorDetailScreen(doctor: doctor, child: child),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(context),
+                  const SizedBox(height: 12),
+                  _buildBio(),
+                  const SizedBox(height: 12),
+                  _buildAvailability(),
+                  const SizedBox(height: 14),
+                  _buildActions(context),
+                ],
+              ),
+            ),
+          ),
+        )
         .animate(delay: Duration(milliseconds: index * 80))
         .fadeIn(duration: 400.ms)
         .slideX(begin: 0.15, end: 0);
@@ -434,9 +439,11 @@ class _DoctorCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Icon(Icons.work_outline,
-                      size: 13,
-                      color: HomeScreenTheme.secondaryText(isDark)),
+                  Icon(
+                    Icons.work_outline,
+                    size: 13,
+                    color: HomeScreenTheme.secondaryText(isDark),
+                  ),
                   const SizedBox(width: 3),
                   Text(
                     '${doctor.yearsOfExperience} ${'years_exp'.tr()}',
@@ -546,7 +553,8 @@ class _DoctorCard extends StatelessWidget {
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(12),
+              ),
               elevation: 0,
             ),
           ),
@@ -605,7 +613,7 @@ class _DoctorAvatar extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _placeholder(size),
+          errorBuilder: (_, _, _) => _placeholder(size),
         ),
       );
     }
@@ -653,7 +661,9 @@ class _RatingStars extends StatelessWidget {
         final filled = i < rating.floor();
         final half = !filled && i < rating;
         return Icon(
-          half ? Icons.star_half_rounded : (filled ? Icons.star_rounded : Icons.star_outline_rounded),
+          half
+              ? Icons.star_half_rounded
+              : (filled ? Icons.star_rounded : Icons.star_outline_rounded),
           size: size,
           color: const Color(0xFFF59E0B),
         );
@@ -728,8 +738,11 @@ class _ErrorWidget extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
   final bool isDark;
-  const _ErrorWidget(
-      {required this.message, required this.onRetry, required this.isDark});
+  const _ErrorWidget({
+    required this.message,
+    required this.onRetry,
+    required this.isDark,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -758,8 +771,11 @@ class _EmptyDoctorsWidget extends StatelessWidget {
       padding: const EdgeInsets.all(48),
       child: Column(
         children: [
-          Icon(Icons.medical_services_outlined,
-              size: 72, color: Colors.grey[400]),
+          Icon(
+            Icons.medical_services_outlined,
+            size: 72,
+            color: Colors.grey[400],
+          ),
           const SizedBox(height: 16),
           Text(
             'no_doctors_available'.tr(),

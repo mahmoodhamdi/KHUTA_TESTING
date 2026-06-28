@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +21,7 @@ class MarkdownViewScreen extends StatefulWidget {
 
 class _MarkdownViewScreenState extends State<MarkdownViewScreen> {
   String? _markdownData;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -30,11 +32,15 @@ class _MarkdownViewScreenState extends State<MarkdownViewScreen> {
   Future<void> _loadMarkdownFile() async {
     try {
       final String data = await rootBundle.loadString(widget.filePath);
+      if (!mounted) return;
       setState(() {
         _markdownData = data;
+        _hasError = false;
       });
     } catch (e) {
       if (kDebugMode) debugPrint('Error loading markdown file: $e');
+      if (!mounted) return;
+      setState(() => _hasError = true);
     }
   }
 
@@ -50,7 +56,29 @@ class _MarkdownViewScreenState extends State<MarkdownViewScreen> {
         foregroundColor: HomeScreenTheme.primaryText(isDark),
         elevation: 0,
       ),
-      body: _markdownData == null
+      body: _hasError
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline,
+                      size: 48, color: HomeScreenTheme.primaryText(isDark)),
+                  const SizedBox(height: 12),
+                  Text('error_loading_content'.tr(),
+                      style:
+                          TextStyle(color: HomeScreenTheme.primaryText(isDark))),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() => _hasError = false);
+                      _loadMarkdownFile();
+                    },
+                    child: Text('retry'.tr()),
+                  ),
+                ],
+              ),
+            )
+          : _markdownData == null
           ? Center(
               child: CircularProgressIndicator(
                 color: HomeScreenTheme.accentBlue(isDark),

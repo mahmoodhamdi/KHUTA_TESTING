@@ -31,10 +31,14 @@ class _OtpScreenState extends State<OtpScreen> {
   static const _otpLength = 6;
 
   /// Individual controllers for each digit box.
-  final List<TextEditingController> _controllers =
-      List.generate(_otpLength, (_) => TextEditingController());
-  final List<FocusNode> _focusNodes =
-      List.generate(_otpLength, (_) => FocusNode());
+  final List<TextEditingController> _controllers = List.generate(
+    _otpLength,
+    (_) => TextEditingController(),
+  );
+  final List<FocusNode> _focusNodes = List.generate(
+    _otpLength,
+    (_) => FocusNode(),
+  );
 
   /// Resend cooldown timer.
   static const _resendSeconds = 60;
@@ -85,8 +89,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
   // ─── OTP helpers ──────────────────────────────────────────────────────────
 
-  String get _otpCode =>
-      _controllers.map((c) => c.text).join();
+  String get _otpCode => _controllers.map((c) => c.text).join();
 
   bool get _isComplete => _otpCode.length == _otpLength;
 
@@ -183,8 +186,9 @@ class _OtpScreenState extends State<OtpScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor:
-            isDark ? AppColors.darkBackground : AppColors.lightBackground,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -203,25 +207,25 @@ class _OtpScreenState extends State<OtpScreen> {
 
                 // ── Icon ────────────────────────────────────────────────
                 Center(
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          AppColors.softBlue.withOpacity(0.2),
-                          AppColors.calmGreen.withOpacity(0.2),
-                        ],
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.softBlue.withValues(alpha: 0.2),
+                              AppColors.calmGreen.withValues(alpha: 0.2),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: const Icon(
+                          Icons.message_outlined,
+                          size: 40,
+                          color: AppColors.softBlue,
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: const Icon(
-                      Icons.message_outlined,
-                      size: 40,
-                      color: AppColors.softBlue,
-                    ),
-                  ),
-                )
+                    )
                     .animate()
                     .fadeIn(duration: 500.ms)
                     .scale(begin: const Offset(0.8, 0.8)),
@@ -287,7 +291,9 @@ class _OtpScreenState extends State<OtpScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: AppColors.softBlue,
                         foregroundColor: Colors.white,
-                        disabledBackgroundColor: AppColors.softBlue.withOpacity(0.4),
+                        disabledBackgroundColor: AppColors.softBlue.withValues(
+                          alpha: 0.4,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
@@ -331,8 +337,9 @@ class _OtpScreenState extends State<OtpScreen> {
                         const SizedBox(width: 4),
                         _secondsLeft > 0
                             ? Text(
-                                'auth_resend_in_seconds'
-                                    .tr(args: ['$_secondsLeft']),
+                                'auth_resend_in_seconds'.tr(
+                                  args: ['$_secondsLeft'],
+                                ),
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: AppColors.softBlue,
                                   fontWeight: FontWeight.w600,
@@ -393,25 +400,25 @@ class _OtpDigitBox extends StatelessWidget {
       height: 56,
       decoration: BoxDecoration(
         color: isFilled
-            ? AppColors.softBlue.withOpacity(0.12)
+            ? AppColors.softBlue.withValues(alpha: 0.12)
             : isDark
-                ? const Color(0xFF1E1E1E)
-                : Colors.white,
+            ? const Color(0xFF1E1E1E)
+            : Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: focusNode.hasFocus
               ? AppColors.softBlue
               : isFilled
-                  ? AppColors.softBlue.withOpacity(0.5)
-                  : isDark
-                      ? Colors.white12
-                      : Colors.black12,
+              ? AppColors.softBlue.withValues(alpha: 0.5)
+              : isDark
+              ? Colors.white12
+              : Colors.black12,
           width: focusNode.hasFocus ? 2 : 1.5,
         ),
         boxShadow: focusNode.hasFocus
             ? [
                 BoxShadow(
-                  color: AppColors.softBlue.withOpacity(0.2),
+                  color: AppColors.softBlue.withValues(alpha: 0.2),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),

@@ -228,6 +228,7 @@
   "assessment_deleted": "تم حذف التقييم بنجاح",
   "error_adding_child": "خطأ في إضافة الطفل",
   "error_loading_children": "خطأ في تحميل الأطفال",
+  "error_loading_content": "فشل تحميل المحتوى",
   "retry": "إعادة المحاولة",
   "add_child_description": "ابدأ بإضافة طفلك الأول لبدء تتبع نموه ونتائج اختباراته.",
   "add_first_child": "إضافة أول طفل",

@@ -11,7 +11,11 @@ class DoctorDetailScreen extends StatelessWidget {
   final Doctor doctor;
   final Child child;
 
-  const DoctorDetailScreen({super.key, required this.doctor, required this.child});
+  const DoctorDetailScreen({
+    super.key,
+    required this.doctor,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -154,11 +158,16 @@ class DoctorDetailScreen extends StatelessWidget {
             runSpacing: 8,
             children: doctor.availableDays.map((day) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 7,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+                  border: Border.all(
+                    color: Colors.green.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: Text(
                   day,
@@ -181,18 +190,25 @@ class DoctorDetailScreen extends StatelessWidget {
             runSpacing: 8,
             children: doctor.availableTimeSlots.map((slot) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 7,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF1A56DB).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: const Color(0xFF1A56DB).withValues(alpha: 0.3)),
+                    color: const Color(0xFF1A56DB).withValues(alpha: 0.3),
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.access_time_rounded,
-                        size: 14, color: Color(0xFF1A56DB)),
+                    const Icon(
+                      Icons.access_time_rounded,
+                      size: 14,
+                      color: Color(0xFF1A56DB),
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       slot,
@@ -224,7 +240,8 @@ class DoctorDetailScreen extends StatelessWidget {
             color: Colors.red,
             onTap: () async {
               final url = Uri.parse(
-                  'https://maps.google.com/?q=${Uri.encodeComponent(doctor.clinicAddress)}');
+                'https://maps.google.com/?q=${Uri.encodeComponent(doctor.clinicAddress)}',
+              );
               if (await canLaunchUrl(url)) {
                 await launchUrl(url, mode: LaunchMode.externalApplication);
               }
@@ -256,8 +273,10 @@ class DoctorDetailScreen extends StatelessWidget {
             label: 'whatsapp_contact'.tr(),
             color: const Color(0xFF25D366),
             onTap: () async {
-              final cleaned =
-                  doctor.whatsappNumber.replaceAll(RegExp(r'[^0-9+]'), '');
+              final cleaned = doctor.whatsappNumber.replaceAll(
+                RegExp(r'[^0-9+]'),
+                '',
+              );
               final url = Uri.parse('https://wa.me/$cleaned');
               if (await canLaunchUrl(url)) {
                 await launchUrl(url, mode: LaunchMode.externalApplication);
@@ -288,7 +307,9 @@ class DoctorDetailScreen extends StatelessWidget {
           backgroundColor: const Color(0xFF1A56DB),
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           elevation: 2,
         ),
       ),
@@ -354,7 +375,11 @@ class _Section extends StatelessWidget {
   final Widget child;
   final bool isDark;
 
-  const _Section({required this.title, required this.child, required this.isDark});
+  const _Section({
+    required this.title,
+    required this.child,
+    required this.isDark,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -415,10 +440,7 @@ class _ContactTile extends StatelessWidget {
             Icon(icon, color: color, size: 20),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                label,
-                style: TextStyle(fontSize: 14, color: color),
-              ),
+              child: Text(label, style: TextStyle(fontSize: 14, color: color)),
             ),
             Icon(Icons.chevron_right_rounded, color: color, size: 18),
           ],
@@ -446,7 +468,7 @@ class _DoctorAvatar extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _placeholder(size),
+          errorBuilder: (_, _, _) => _placeholder(size),
         ),
       );
     }

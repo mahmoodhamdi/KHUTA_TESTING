@@ -42,20 +42,22 @@ class AppointmentSuccessScreen extends StatelessWidget {
 
   Widget _buildSuccessAnimation() {
     return Container(
-      width: 120,
-      height: 120,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15), // FIXED: withOpacity instead of withValues
-        shape: BoxShape.circle,
-      ),
-      child: const Center(
-        child: Icon(
-          Icons.check_circle_rounded,
-          color: Colors.white,
-          size: 72,
-        ),
-      ),
-    )
+          width: 120,
+          height: 120,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(
+              alpha: 0.15,
+            ), // FIXED: withOpacity instead of withValues
+            shape: BoxShape.circle,
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.check_circle_rounded,
+              color: Colors.white,
+              size: 72,
+            ),
+          ),
+        )
         .animate()
         .scale(duration: 600.ms, curve: Curves.elasticOut)
         .fadeIn(duration: 400.ms);
@@ -77,7 +79,7 @@ class AppointmentSuccessScreen extends StatelessWidget {
         Text(
           'booking_success_subtitle'.tr(),
           style: TextStyle(
-            color: Colors.orange.withOpacity(0.1), // FIXED: withOpacity
+            color: Colors.white.withValues(alpha: 0.85),
             fontSize: 15,
           ),
           textAlign: TextAlign.center,
@@ -93,7 +95,7 @@ class AppointmentSuccessScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15), // FIXED: withOpacity
+            color: Colors.black.withValues(alpha: 0.15), // FIXED: withOpacity
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -145,8 +147,9 @@ class AppointmentSuccessScreen extends StatelessWidget {
                 _AppointmentDetailRow(
                   icon: Icons.calendar_today_rounded,
                   label: 'date'.tr(),
-                  value: DateFormat('EEEE, MMMM d, yyyy')
-                      .format(appointment.appointmentDate),
+                  value: DateFormat(
+                    'EEEE, MMMM d, yyyy',
+                  ).format(appointment.appointmentDate),
                 ),
                 const Divider(height: 20),
                 _AppointmentDetailRow(
@@ -171,18 +174,26 @@ class AppointmentSuccessScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 8),
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1), // FIXED: withOpacity
+                    color: Colors.orange.withValues(
+                      alpha: 0.1,
+                    ), // FIXED: withOpacity
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                        color: Colors.orange.withOpacity(0.3)), // FIXED: withOpacity
+                      color: Colors.orange.withValues(alpha: 0.3),
+                    ), // FIXED: withOpacity
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.pending_rounded,
-                          color: Colors.orange, size: 16),
+                      const Icon(
+                        Icons.pending_rounded,
+                        color: Colors.orange,
+                        size: 16,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         'status_pending'.tr(),
@@ -200,10 +211,7 @@ class AppointmentSuccessScreen extends StatelessWidget {
           ),
         ],
       ),
-    )
-        .animate()
-        .fadeIn(delay: 500.ms, duration: 500.ms)
-        .slideY(begin: 0.3, end: 0);
+    ).animate().fadeIn(delay: 500.ms, duration: 500.ms).slideY(begin: 0.3, end: 0);
   }
 
   Widget _buildBottomButtons(BuildContext context) {
@@ -224,13 +232,16 @@ class AppointmentSuccessScreen extends StatelessWidget {
                 foregroundColor: const Color(0xFF1A56DB),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14)),
+                  borderRadius: BorderRadius.circular(14),
+                ),
                 elevation: 0,
               ),
               child: Text(
                 'back_to_home'.tr(),
                 style: const TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 16),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
             ),
           ),

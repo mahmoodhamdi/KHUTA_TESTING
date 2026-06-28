@@ -36,14 +36,7 @@ class SettingsScreen extends StatelessWidget {
             child: Text('cancel'.tr()),
           ),
           TextButton(
-            onPressed: () async {
-              await context.read<AuthCubit>().logout();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false,
-              );
-            },
+            onPressed: () => Navigator.pop(context, true),
             child: Text(
               'logout'.tr(),
               style: const TextStyle(color: Colors.red),
@@ -54,7 +47,14 @@ class SettingsScreen extends StatelessWidget {
     );
 
     if (confirmed == true && context.mounted) {
-      context.read<AuthCubit>().logout();
+      await context.read<AuthCubit>().logout();
+      if (context.mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+          (route) => false,
+        );
+      }
     }
   }
 

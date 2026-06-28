@@ -32,7 +32,7 @@ class Appointment {
   });
 
   factory Appointment.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+    final data = (doc.data() as Map<String, dynamic>?) ?? <String, dynamic>{};
     return Appointment(
       id: doc.id,
       doctorId: data['doctorId'] ?? '',

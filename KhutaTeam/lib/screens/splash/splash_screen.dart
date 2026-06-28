@@ -64,10 +64,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 'assets/images/logo.png',
                 width: 120,
                 height: 120,
-                errorBuilder: (_, __, ___) => const Icon(
-                  Icons.psychology_outlined,
-                  size: 80,
-                ),
+                errorBuilder: (_, _, _) =>
+                    const Icon(Icons.psychology_outlined, size: 80),
               ),
               const SizedBox(height: 24),
               Text(

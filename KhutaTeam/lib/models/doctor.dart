@@ -44,7 +44,7 @@ class Doctor {
   });
 
   factory Doctor.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+    final data = (doc.data() as Map<String, dynamic>?) ?? <String, dynamic>{};
     return Doctor(
       id: doc.id,
       name: data['name'] ?? '',

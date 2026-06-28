@@ -57,8 +57,9 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor:
-            isDark ? AppColors.darkBackground : AppColors.lightBackground,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
@@ -69,12 +70,12 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
 
                 // ── Title ──────────────────────────────────────────────────
                 Text(
-                  'auth_role_title'.tr(),
-                  style: theme.textTheme.displaySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                )
+                      'auth_role_title'.tr(),
+                      style: theme.textTheme.displaySmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    )
                     .animate()
                     .fadeIn(duration: 500.ms)
                     .slideY(begin: -0.15, curve: Curves.easeOut),
@@ -92,52 +93,54 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                 const SizedBox(height: 56),
 
                 Row(
-                  children: [
-                    Expanded(
-                      child: _RoleCard(
-                        role: 'parent',
-                        label: 'auth_role_parent'.tr(),
-                        description: 'auth_role_parent_desc'.tr(),
-                        icon: Icons.family_restroom_rounded,
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFE3F0FF), Color(0xFFD0E8FF)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                      children: [
+                        Expanded(
+                          child: _RoleCard(
+                            role: 'parent',
+                            label: 'auth_role_parent'.tr(),
+                            description: 'auth_role_parent_desc'.tr(),
+                            icon: Icons.family_restroom_rounded,
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFE3F0FF), Color(0xFFD0E8FF)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            darkGradient: const LinearGradient(
+                              colors: [Color(0xFF1A2940), Color(0xFF0F1E30)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            iconColor: AppColors.softBlue,
+                            isSelected: _selectedRole == 'parent',
+                            onTap: () =>
+                                setState(() => _selectedRole = 'parent'),
+                          ),
                         ),
-                        darkGradient: const LinearGradient(
-                          colors: [Color(0xFF1A2940), Color(0xFF0F1E30)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _RoleCard(
+                            role: 'teacher',
+                            label: 'auth_role_teacher'.tr(),
+                            description: 'auth_role_teacher_desc'.tr(),
+                            icon: Icons.school_rounded,
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFE8F5E9), Color(0xFFD4EDDA)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            darkGradient: const LinearGradient(
+                              colors: [Color(0xFF142A1A), Color(0xFF0B1E10)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            iconColor: AppColors.calmGreen,
+                            isSelected: _selectedRole == 'teacher',
+                            onTap: () =>
+                                setState(() => _selectedRole = 'teacher'),
+                          ),
                         ),
-                        iconColor: AppColors.softBlue,
-                        isSelected: _selectedRole == 'parent',
-                        onTap: () => setState(() => _selectedRole = 'parent'),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: _RoleCard(
-                        role: 'teacher',
-                        label: 'auth_role_teacher'.tr(),
-                        description: 'auth_role_teacher_desc'.tr(),
-                        icon: Icons.school_rounded,
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFE8F5E9), Color(0xFFD4EDDA)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        darkGradient: const LinearGradient(
-                          colors: [Color(0xFF142A1A), Color(0xFF0B1E10)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        iconColor: AppColors.calmGreen,
-                        isSelected: _selectedRole == 'teacher',
-                        onTap: () => setState(() => _selectedRole = 'teacher'),
-                      ),
-                    ),
-                  ],
-                )
+                      ],
+                    )
                     .animate()
                     .fadeIn(delay: 300.ms, duration: 500.ms)
                     .slideY(begin: 0.1),
@@ -152,8 +155,9 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                       opacity: _selectedRole != null ? 1.0 : 0.5,
                       duration: const Duration(milliseconds: 300),
                       child: ElevatedButton(
-                        onPressed:
-                            isLoading || _selectedRole == null ? null : _handleConfirm,
+                        onPressed: isLoading || _selectedRole == null
+                            ? null
+                            : _handleConfirm,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           backgroundColor: AppColors.softBlue,
@@ -240,14 +244,14 @@ class _RoleCard extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: iconColor.withOpacity(0.25),
+                    color: iconColor.withValues(alpha: 0.25),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
                   ),
                 ]
               : [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -269,11 +273,7 @@ class _RoleCard extends StatelessWidget {
                     color: iconColor,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 14,
-                  ),
+                  child: const Icon(Icons.check, color: Colors.white, size: 14),
                 ),
               ),
             ),
@@ -285,7 +285,7 @@ class _RoleCard extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.15),
+                color: iconColor.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Icon(icon, size: 32, color: iconColor),

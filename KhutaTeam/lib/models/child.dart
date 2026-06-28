@@ -23,7 +23,7 @@ class Child {
   });
 
   factory Child.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    final data = (doc.data() as Map<String, dynamic>?) ?? <String, dynamic>{};
     return Child(
       id: doc.id,
       name: data['name'] ?? '',

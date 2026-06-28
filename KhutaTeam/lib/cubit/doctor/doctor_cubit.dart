@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:khuta/core/services/error_handler_service.dart';
 import 'package:khuta/cubit/doctor/doctor_state.dart';
 import 'package:khuta/data/repositories/doctor_repository.dart';
 import 'package:khuta/models/appointment.dart';
@@ -28,7 +29,7 @@ class DoctorCubit extends Cubit<DoctorState> {
       if (kDebugMode) debugPrint('DoctorCubit.loadDoctors: $e');
       emit(state.copyWith(
         status: DoctorStatus.error,
-        errorMessage: e.toString(),
+        errorMessage: ErrorHandlerService.getErrorMessage(e),
       ));
     }
   }
@@ -114,7 +115,7 @@ class DoctorCubit extends Cubit<DoctorState> {
       if (kDebugMode) debugPrint('DoctorCubit.addDoctor: $e');
       emit(state.copyWith(
         status: DoctorStatus.error,
-        errorMessage: e.toString(),
+        errorMessage: ErrorHandlerService.getErrorMessage(e),
       ));
     }
   }
@@ -134,7 +135,7 @@ class DoctorCubit extends Cubit<DoctorState> {
       if (kDebugMode) debugPrint('DoctorCubit.updateDoctor: $e');
       emit(state.copyWith(
         status: DoctorStatus.error,
-        errorMessage: e.toString(),
+        errorMessage: ErrorHandlerService.getErrorMessage(e),
       ));
     }
   }
@@ -158,7 +159,7 @@ class DoctorCubit extends Cubit<DoctorState> {
       if (kDebugMode) debugPrint('DoctorCubit.deleteDoctor: $e');
       emit(state.copyWith(
         status: DoctorStatus.error,
-        errorMessage: e.toString(),
+        errorMessage: ErrorHandlerService.getErrorMessage(e),
       ));
     }
   }
@@ -188,7 +189,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     } catch (e) {
       emit(state.copyWith(
         status: AppointmentStatus2.error,
-        errorMessage: e.toString(),
+        errorMessage: ErrorHandlerService.getErrorMessage(e),
       ));
     }
   }
@@ -259,7 +260,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
       if (kDebugMode) debugPrint('AppointmentCubit.bookAppointment: $e');
       emit(state.copyWith(
         status: AppointmentStatus2.error,
-        errorMessage: e.toString(),
+        errorMessage: ErrorHandlerService.getErrorMessage(e),
       ));
     }
   }
